@@ -1,4 +1,4 @@
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -6,10 +6,10 @@ const firebaseConfig = {
     projectId: process.env.REACT_APP_PROJECT_ID,
     databaseURL: process.env.REACT_APP_DATABASE_URL,
     storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: "590150286244",
-    appId: "1:590150286244:web:6810647e4348d176551f31",
-    measurementId: "G-063RRQTXCZ"
+    messagingSenderId: process.env.REACT_APP_MESSAGIN_ID,
+    appId: process.env.REACT_APP_APP_IS,
+    measurementId: process.env.REACT_APP_MEASUREMENT_ID
   };
-  // Initialize Firebase
-  export default firebase.initializeApp(firebaseConfig);
+
+export default firebase.initializeApp(firebaseConfig);
 
