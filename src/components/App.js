@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import AppRouter from "components/Router";
 import {authService} from "fbase";
 
 function App() {
+  const [ init, setInit ] = useState(false);
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false); 
 
-  const [ isLoggedIn, setIsLoggedIn ] = useState(authService.currentUser);  
+  useEffect(() => {
+    authService.onAuthStateChanged((user) => {
+      if (user){
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+      setInit(true);
+    });
+  }, [])
+  console.log(authService.currentUser); 
+  setInterval(() => {
+    console.log(authService.currentUser);
+  }, 2000)
   return (
     <>
-    <AppRouter isLoggedIn={isLoggedIn} />
+    {init ? <AppRouter isLoggedIn={isLoggedIn} /> : "Initializing..."}
     <footer>&copy; e.twitter {new Date().getFullYear()}</footer>
     </>
   );
