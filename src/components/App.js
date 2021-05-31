@@ -1,10 +1,16 @@
-import React from 'react';
-import './App.css';
-import AppRouter from "./Router";
+import React, { useState } from "react";
+import "./App.css";
+import AppRouter from "components/Router";
+import {authService} from "fbase";
 
 function App() {
+
+  const [ isLoggedIn, setIsLoggedIn ] = useState(authService.currentUser);  
   return (
-    <AppRouter />
+    <>
+    <AppRouter isLoggedIn={isLoggedIn} />
+    <footer>&copy; e.twitter {new Date().getFullYear()}</footer>
+    </>
   );
 }
 
