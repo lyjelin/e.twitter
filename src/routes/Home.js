@@ -1,5 +1,6 @@
 import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
+import Eweet from "./Eweet.js";
 
 const Home = ({ userObj }) => {
     const [eweet, setEweet] = useState("");
@@ -13,7 +14,7 @@ const Home = ({ userObj }) => {
                 id:doc.id, 
                 ...doc.data
             }));
-            console.log(eweetArray);
+            setEweets(eweetArray);
         });
     }, [])
 
@@ -41,9 +42,10 @@ const Home = ({ userObj }) => {
             </form>
             <div>
                 {eweets.map((eweet) => (
-                    <div key={eweet.id}>
-                         <h4>{eweet.text}</h4>
-                    </div>
+                    <Eweet 
+                        key={eweet.id} 
+                        eweetObj={eweet.eweetObj} 
+                        isOwner={eweet.creatorId === userObj.uid} />
                 ))}
             </div>
         </div>
