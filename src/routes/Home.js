@@ -1,22 +1,20 @@
 import { dbService } from "fbase";
 import React, { useEffect, useState } from "react";
 
-const Home = () => {
+const Home = ({ userObj }) => {
     const [eweet, setEweet] = useState("");
     const [eweets, setEweets] = useState("");
-    const getEweets = async() => {
-        const dbEweets = await dbService.collection("eweets").get();
-        dbEweets.forEach((document)=> {
-            const eweetObject = {
-                ...document.data(),
-                id: document.id,
-            };
-            setEweets((prev) => [eweetObject, ...prev]);
-        });
-    };
+
 
     useEffect(() => {
         getEweets();
+        dbService.collection("eweets").onSnapshot(snapshot => {
+            const eweetArray = snapshot.docs.map(doc => ({
+                id:doc.id, 
+                ...doc.data
+            }));
+            console.log(eweetArray);
+        });
     }, [])
 
     const onSubmit = (event) => {
@@ -24,6 +22,7 @@ const Home = () => {
         dbService.collection("eweets").add({
             eweet, 
             createdAt: Date.now(),  
+            creatorId: userObj.uid,
         });
         setEweet("");
     };
@@ -43,7 +42,7 @@ const Home = () => {
             <div>
                 {eweets.map((eweet) => (
                     <div key={eweet.id}>
-                         <h4>{eweet.eweet}</h4>
+                         <h4>{eweet.text}</h4>
                     </div>
                 ))}
             </div>
