@@ -19,16 +19,23 @@ const Home = ({ userObj }) => {
         });
     }, [])
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
-        const fileRef = storateService.ref().child(`${userObj.uid}/${uuidv5()}`);
-        await fileRef.putString(attachment, "data_url")
-        /*await dbService.collection("eweets").add({
-            eweet, 
+        let attachmentUrl = "";
+        if (attachment != ""){
+            const attachmentRef = storateService.ref().child(`${userObj.uid}/${uuidv5()}`);
+            const response = await attachmentRef.putString(attachment, "data_url");
+            attachmentUrl = await response.ref.getDownloadURL();
+        }
+        const eweetObj = {
+            text: eweet, 
             createdAt: Date.now(),  
             creatorId: userObj.uid,
-        });
-        setEweet("");*/
+            attachmentUrl,
+        };
+        await dbService.collection("eweets").add(eweetObj);
+        setEweet("");
+        setAttachment("");
     };
 
     const onChange = (event) => {

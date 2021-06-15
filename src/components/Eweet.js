@@ -48,6 +48,7 @@ const Eweet = ({eweetObj, isOwner}) => {
         ) : (
         <>
             <h4>{eweetObj.text}</h4>
+            {eweetObj.attachmentUrl && <img src={eweetObj.attachmentUrl}} width="50px" height="50px" />
             {isOwnerr && (
                 <> 
                     <button onClick={onDeleteClick}>Delete Eweet</button>
