@@ -7,7 +7,8 @@ const Eweet = ({eweetObj, isOwner}) => {
     const onDeleteClick = () => {
         const ok = window.confirm("Are you sure you want to delete this eweet?");
         if (ok) {
-            dbService.doc(`eweets/${eweetObj.id}`).delete();
+            await dbService.doc(`eweets/${eweetObj.id}`).delete();
+            await storateService.refFromURL(eweetObj.attachmentUrl).delete();
         }
     }
     
@@ -48,8 +49,8 @@ const Eweet = ({eweetObj, isOwner}) => {
         ) : (
         <>
             <h4>{eweetObj.text}</h4>
-            {eweetObj.attachmentUrl && <img src={eweetObj.attachmentUrl}} width="50px" height="50px" />
-            {isOwnerr && (
+            {eweetObj.attachmentUrl && <img src={eweetObj.attachmentUrl} width="50px" height="50px" />}
+            {isOwner && (
                 <> 
                     <button onClick={onDeleteClick}>Delete Eweet</button>
                     <button onClick={toggleEditing}>Edit Eweet</button>
