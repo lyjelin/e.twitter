@@ -41,7 +41,8 @@ const Eweet = ({eweetObj, isOwner}) => {
                         required />
                     <input type="submit" value="Update Eweet" />
                 </form>  
-                <button onClick={toggleEditing}>Cancel</button></>
+                <button onClick={toggleEditing}>Cancel</button>
+            </>
             )}
             </>
         ) : (
