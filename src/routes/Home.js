@@ -5,7 +5,7 @@ import Eweet from "./Eweet.js";
 const Home = ({ userObj }) => {
     const [eweet, setEweet] = useState("");
     const [eweets, setEweets] = useState("");
-
+    const [atttachment, serAttechment] = useState();
 
     useEffect(() => {
         getEweets();
@@ -41,10 +41,14 @@ const Home = ({ userObj }) => {
     const theFile = files[0];
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
-        console.log(finishedEvent);
+        const {currentTarget: { result },
+        } = finishedEvent;
+        setAttechment(result);
     };
     reader.readAsDataURL(theFile);
     }
+    const onClearAttachment = () => setAttachment(null);
+
     return (
         <div>
             <form onSubmit={onSubmit}>
@@ -56,6 +60,12 @@ const Home = ({ userObj }) => {
                     maxLength={120} />
                 <input type="file" accept="image/*" onChange={onFileChange} />
                 <input type="submit" value="e.twitter" />
+                {attachment && (
+                    <div>
+                        <img sre={atttachment} width="50px" height="50px" />
+                        <button onClick={onClearAttachment}>Clear</button>
+                     </div>
+                )}
             </form>
             <div>
                 {eweets.map((eweet) => (

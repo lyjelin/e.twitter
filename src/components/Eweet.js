@@ -54,7 +54,7 @@ const Eweet = ({eweetObj, isOwner}) => {
                     <button onClick={toggleEditing}>Edit Eweet</button>
                 </>
             )}</>
-        }
+        )};
     </div>
     );
 };
