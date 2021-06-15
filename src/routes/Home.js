@@ -1,6 +1,7 @@
-import { dbService } from "fbase";
+import { dbService, storateService } from "fbase";
 import React, { useEffect, useState } from "react";
 import Eweet from "./Eweet.js";
+import { v5 as uuid } from "uuid/v5";
 
 const Home = ({ userObj }) => {
     const [eweet, setEweet] = useState("");
@@ -20,12 +21,14 @@ const Home = ({ userObj }) => {
 
     const onSubmit = (event) => {
         event.preventDefault();
-        dbService.collection("eweets").add({
+        const fileRef = storateService.ref().child(`${userObj.uid}/${uuidv5()}`);
+        await fileRef.putString(attachment, "data_url")
+        /*await dbService.collection("eweets").add({
             eweet, 
             createdAt: Date.now(),  
             creatorId: userObj.uid,
         });
-        setEweet("");
+        setEweet("");*/
     };
 
     const onChange = (event) => {
