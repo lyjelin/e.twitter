@@ -1,5 +1,5 @@
-import React from "react";
-import { dbService } from "fbase";
+import { dbService, storateService } from "fbase";
+import React, { useState } from "react";
 
 const Eweet = ({eweetObj, isOwner}) => {
     const [editing, setEditing] = useState(false);
@@ -7,8 +7,8 @@ const Eweet = ({eweetObj, isOwner}) => {
     const onDeleteClick = () => {
         const ok = window.confirm("Are you sure you want to delete this eweet?");
         if (ok) {
-            await dbService.doc(`eweets/${eweetObj.id}`).delete();
-            await storateService.refFromURL(eweetObj.attachmentUrl).delete();
+            dbService.doc(`eweets/${eweetObj.id}`).delete();
+            storateService.refFromURL(eweetObj.attachmentUrl).delete();
         }
     }
     
@@ -49,7 +49,7 @@ const Eweet = ({eweetObj, isOwner}) => {
         ) : (
         <>
             <h4>{eweetObj.text}</h4>
-            {eweetObj.attachmentUrl && <img src={eweetObj.attachmentUrl} width="50px" height="50px" />}
+            {eweetObj.attachmentUrl && <img alt={eweetObj.attachmentUrl} src={eweetObj.attachmentUrl} width="50px" height="50px" />}
             {isOwner && (
                 <> 
                     <button onClick={onDeleteClick}>Delete Eweet</button>

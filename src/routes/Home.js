@@ -1,15 +1,15 @@
 import { dbService, storateService } from "fbase";
 import React, { useEffect, useState } from "react";
-import Eweet from "./Eweet.js";
-import { v5 as uuid } from "uuid/v5";
+import { v5 } from "uuid/v5";
+import Eweet from "components/Eweet";
 
 const Home = ({ userObj }) => {
     const [eweet, setEweet] = useState("");
     const [eweets, setEweets] = useState("");
-    const [atttachment, serAttechment] = useState();
+    const [attachment, setAttachment] = useState("");
 
     useEffect(() => {
-        getEweets();
+        
         dbService.collection("eweets").onSnapshot(snapshot => {
             const eweetArray = snapshot.docs.map(doc => ({
                 id:doc.id, 
@@ -22,8 +22,8 @@ const Home = ({ userObj }) => {
     const onSubmit = async (event) => {
         event.preventDefault();
         let attachmentUrl = "";
-        if (attachment != ""){
-            const attachmentRef = storateService.ref().child(`${userObj.uid}/${uuidv5()}`);
+        if (attachment !== ""){
+            const attachmentRef = storateService.ref().child(`${userObj.uid}/${v5()}`);
             const response = await attachmentRef.putString(attachment, "data_url");
             attachmentUrl = await response.ref.getDownloadURL();
         }
@@ -53,7 +53,7 @@ const Home = ({ userObj }) => {
     reader.onloadend = (finishedEvent) => {
         const {currentTarget: { result },
         } = finishedEvent;
-        setAttechment(result);
+        setAttachment(result);
     };
     reader.readAsDataURL(theFile);
     }
@@ -72,7 +72,7 @@ const Home = ({ userObj }) => {
                 <input type="submit" value="e.twitter" />
                 {attachment && (
                     <div>
-                        <img sre={atttachment} width="50px" height="50px" />
+                        <img alt={attachment} src={attachment} width="50px" height="50px" />
                         <button onClick={onClearAttachment}>Clear</button>
                      </div>
                 )}
